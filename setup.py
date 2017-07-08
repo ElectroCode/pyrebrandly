@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='rebrandly',
+    name='pyrebrandly',
     version='0.0.1',
     packages=[''],
     url='https://github.com/ElectroCode/pyrebrandly',
