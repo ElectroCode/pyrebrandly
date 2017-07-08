@@ -1,11 +1,12 @@
 from pyrebrandly.exceptions import RebrandlyError
 
+
 class RebrandlyResponse:
     @staticmethod
-    def raise_exception(http_response, rebrandly_response):
-        code = http_response.code
+    def raise_exception(code, rebrandly_response):
+
         if code == 200:
-            pass
+            return {'status': 'ok', 'response': rebrandly_response}
             # Everything went well, continue.
         elif code == 400:
             raise RebrandlyError.BadRequestError(rebrandly_response.message)

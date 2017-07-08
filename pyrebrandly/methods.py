@@ -30,17 +30,18 @@ class Rebrandly:
 #                'team': team_id
 #            }
 
-    headers = {'Content-Type': 'application/json'}
+
 #            if team:
 #                headers << team
-    def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id='', domain={}):
-        self.api_key = api_key, self.domain_name = domain_name, self.domain_id = domain_id, self.team_id = team_id, self.domain = domain
+    def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id='', domain=None):
+        self.api_key = api_key, self.domain_name = domain_name, self.domain_id = domain_id, self.team_id = team_id, self.domain = domain, self.headers = {}
         domain = {
             'fullName': domain_name,
             'id': domain_id
         }
-#            if team_id:
-#                headers['team'] =  team_id
+        self.headers['Content-Type'] = 'application/json'
+        if team_id:
+            self.headers['team'] =  team_id
 
 class Links(Rebrandly):
     """
@@ -72,9 +73,12 @@ class Links(Rebrandly):
 
         """
         if not options:
-            rebrandly_return requests.get('/', options)
+            r = requests.get('/', options)
+            status_code = r.status_code
+            response = RebrandlyResponse.raise_exception(status_code, r.json())
+            if response == 'ok':
+                return response['response']
 
-            RebrandlyResponse.raise_exception(http_response, rebrandly_response)
 
     def get(id=None, options=None):
         """
