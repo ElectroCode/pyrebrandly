@@ -1,16 +1,9 @@
 import requests
 import json
-from pyrebrandly.exceptions import RebrandlyError
+import pyrebrandly.exceptions as exc
 from pyrebrandly.rebrandly_response import RebrandlyResponse
 from pyrebrandly import version
 
-"""
-.. automodule:: Rebrandly
-    :members:
-    :undoc-members:
-    :inherited-members:
-    :show-inheritance:
-"""
 class Rebrandly:
     """
     Base class for Rebrandly API actions
@@ -87,7 +80,7 @@ class Links(Rebrandly):
             options: A Dict of options
         """
         if id is None:
-            raise RebrandlyError.APIError
+            raise exc.APIError
         if options is None:
             return requests.get("/#{id}")
         else:
@@ -135,7 +128,7 @@ class Links(Rebrandly):
             options: A Dict
         """
         if options is None:
-            raise RebrandlyError.APIError("Rebrandly#update must be used with options.")
+            raise exc.APIError("Rebrandly#update must be used with options.")
         else:
             return requests.post("/#{id}", options)
 
@@ -148,7 +141,7 @@ class Links(Rebrandly):
             options: Options Dict
         """
         if id == None:
-            raise RebrandlyError.APIError("No ID to delete")
+            raise exc.APIError("No ID to delete")
 
         else:
             if options:
@@ -158,9 +151,9 @@ class Links(Rebrandly):
                     if options['trash'] == True or options['trash'] == False:
                         return requests.delete("/#{id}", options)
                     else:
-                        raise RebrandlyError.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                        raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
                 else:
-                    raise RebrandlyError.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                    raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
 
 class Domain(Rebrandly):
     """
