@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='pyrebrandly',
-    version='0.8.0',
+    version='0.8.1',
     packages=['pyrebrandly'],
     url='https://github.com/ElectroCode/pyrebrandly',
     license='MIT',
