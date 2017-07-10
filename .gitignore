@@ -1,8 +1,10 @@
 .idea/
 dist/
-*.yml
 *.egg-info/
-*.pyc
-docs/_build/**
+docs/_build/doctrees/
 build/
-
+/docs/_build/
+/docs/_static/
+/docs/_templates/
+docs/_templates/
+pyrebrandly/__pycache__/
