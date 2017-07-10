@@ -1,10 +1,10 @@
 .idea/
 dist/
 *.egg-info/
-docs/_build/doctrees/
 build/
 /docs/_build/
 /docs/_static/
 /docs/_templates/
-docs/_templates/
 pyrebrandly/__pycache__/
+
+/docs/_build/doctrees/environment.pickle

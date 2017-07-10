@@ -1,1 +1,1 @@
-from . import exceptions, classes, request, version
+from . import exceptions, request, version

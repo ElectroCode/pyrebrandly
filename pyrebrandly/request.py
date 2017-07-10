@@ -1,7 +1,8 @@
-from pyrebrandly.exceptions import *
-from pyrebrandly.classes import *
+import pyrebrandly.version
+import pyrebrandly.exceptions as exc
 
-
+import requests
+import json
 
 class Request:
     """
@@ -15,7 +16,7 @@ class Request:
         """
         :returns: version
         """
-        return repr(version.pyrebrandly)
+        return repr(pyrebrandly.version.pyrebrandly)
 
     def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id=None):
         """
@@ -33,8 +34,10 @@ class Request:
 
         hdrs = {}
 
-        self.api_key = api_key, self.domain_name = domain_name
-        self.domain_id = domain_id, self.uri = base_uri
+        self.api_key = api_key
+        self.domain_name = domain_name
+        self.domain_id = domain_id
+        self.uri = base_uri
 
         if domain_id and domain_name:
             self.domain = {
@@ -65,7 +68,7 @@ class Request:
 class Links(Request):
     """
 
-    Main Rebrandly.Links class
+    Rebrandly.Links class
 
     For managing links, including adding, removing, updating, returning
     """
@@ -269,9 +272,18 @@ class Account(Request):
             return requests.get("/teams", options)
 
 
-class Response:
+class Response(requests.Response):
+
+    def __init__(self, *args, **kwargs):
+        self.tuple = {
+            'msg': args,
+            'extra': kwargs
+        }
+    def __str__(self):
+        return self.tuple
+
     @staticmethod
-    def raise_exception(self, code, rebrandly_response):
+    def raise_exception(code, rebrandly_response):
         """
         Raise an exception based on whether we got an error, and which one.
 

@@ -4,7 +4,6 @@ pyrebrandly API
 .. toctree::
     :maxdepth: 2
 
-    classes
+    request
     exceptions
-    rebrandly_response
     version
