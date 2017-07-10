@@ -15,13 +15,16 @@ class APIError(Error):
 class BadRequestError(APIError):
     """
     Invalid JSON Request
+
     Code: 400
     """
     pass
 class NotAuthorizedError(APIError):
     """
     Authorization credentials invalid
+
     oAuth Token expired etc.
+
     Code: 401
     """
     pass
@@ -29,6 +32,7 @@ class NotAuthorizedError(APIError):
 class AlreadyExistsError(APIError):
     """
     Link etc. Already Exists
+
     Code: 403
     """
     pass
@@ -36,8 +40,11 @@ class AlreadyExistsError(APIError):
 class InvalidFormatError(APIError):
     """
     Invalid input format
+
     Missing body
+
     Limits threshold reached
+
     Code: 403
     """
     pass
@@ -45,6 +52,7 @@ class InvalidFormatError(APIError):
 class NotFoundError(APIError):
     """
     Resource/Endpoint not found
+
     Code: 404
     """
     pass
@@ -52,6 +60,7 @@ class NotFoundError(APIError):
 class InternalServerError(APIError):
     """
     API Endpoint Server Error
+
     Code: 500
     """
     pass
@@ -59,6 +68,7 @@ class InternalServerError(APIError):
 class BadGatewayError(APIError):
     """
     Failure in Rebrandly's upstream providers
+
     Code: 502
     """
     pass
@@ -66,12 +76,14 @@ class BadGatewayError(APIError):
 class APIUnavailableError(APIError):
     """
     API endpoint under maintenance
+
     Code: 503
     """
     pass
 class APITimeoutError(APIError):
     """
     API Operation Timeout
+
     Code: 504
     """
     pass

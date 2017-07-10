@@ -9,9 +9,10 @@ Welcome to pyrebrandly's documentation!
 .. toctree::
     :maxdepth: 2
 
+    pyrebrandly
     installation
     using
-
+    about
 
 
 Indices and tables
