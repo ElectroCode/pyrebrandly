@@ -24,4 +24,3 @@ PyPi
     | ``pip3 download pyrebrandly``
     | ``pip3 install pyrebrandly -d <dir>`` - 'Downloads package into <dir> instead of installing, regardless of what\'s already installed'
 
-
