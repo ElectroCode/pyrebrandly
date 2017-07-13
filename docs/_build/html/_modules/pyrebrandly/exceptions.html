@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pyrebrandly.exceptions &#8212; pyrebrandly 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyrebrandly.exceptions</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="RebrandlyError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.RebrandlyError">[docs]</a><span></span><span class="k">class</span> <span class="nc">RebrandlyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span></div>
+<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="n">RebrandlyError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base Error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+<div class="viewcode-block" id="APIError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.APIError">[docs]</a><span class="k">class</span> <span class="nc">APIError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base API Error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+<div class="viewcode-block" id="BadRequestError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.BadRequestError">[docs]</a><span class="k">class</span> <span class="nc">BadRequestError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Invalid JSON Request</span>
+
+<span class="sd">    Code: 400</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+<div class="viewcode-block" id="NotAuthorizedError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.NotAuthorizedError">[docs]</a><span class="k">class</span> <span class="nc">NotAuthorizedError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Authorization credentials invalid</span>
+
+<span class="sd">    oAuth Token expired etc.</span>
+
+<span class="sd">    Code: 401</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AlreadyExistsError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.AlreadyExistsError">[docs]</a><span class="k">class</span> <span class="nc">AlreadyExistsError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Link etc. Already Exists</span>
+
+<span class="sd">    Code: 403</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InvalidFormatError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.InvalidFormatError">[docs]</a><span class="k">class</span> <span class="nc">InvalidFormatError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Invalid input format</span>
+
+<span class="sd">    Missing body</span>
+
+<span class="sd">    Limits threshold reached</span>
+
+<span class="sd">    Code: 403</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NotFoundError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.NotFoundError">[docs]</a><span class="k">class</span> <span class="nc">NotFoundError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resource/Endpoint not found</span>
+
+<span class="sd">    Code: 404</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="InternalServerError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.InternalServerError">[docs]</a><span class="k">class</span> <span class="nc">InternalServerError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    API Endpoint Server Error</span>
+
+<span class="sd">    Code: 500</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="BadGatewayError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.BadGatewayError">[docs]</a><span class="k">class</span> <span class="nc">BadGatewayError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Failure in Rebrandly&#39;s upstream providers</span>
+
+<span class="sd">    Code: 502</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="APIUnavailableError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.APIUnavailableError">[docs]</a><span class="k">class</span> <span class="nc">APIUnavailableError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    API endpoint under maintenance</span>
+
+<span class="sd">    Code: 503</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+<div class="viewcode-block" id="APITimeoutError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.APITimeoutError">[docs]</a><span class="k">class</span> <span class="nc">APITimeoutError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    API Operation Timeout</span>
+
+<span class="sd">    Code: 504</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">pyrebrandly</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pyrebrandly.html">pyrebrandly API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using.html">Using</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Ken Spencer.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

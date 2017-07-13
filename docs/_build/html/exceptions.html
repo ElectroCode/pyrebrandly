@@ -1,0 +1,212 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Exceptions &#8212; pyrebrandly 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Version" href="version.html" />
+    <link rel="prev" title="Request" href="request.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrebrandly.exceptions">
+<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-pyrebrandly.exceptions" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.APIError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">APIError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#APIError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.APIError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.Error" title="pyrebrandly.exceptions.Error"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.Error</span></code></a></p>
+<p>Base API Error</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.APITimeoutError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">APITimeoutError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#APITimeoutError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.APITimeoutError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>API Operation Timeout</p>
+<p>Code: 504</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.APIUnavailableError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">APIUnavailableError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#APIUnavailableError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.APIUnavailableError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>API endpoint under maintenance</p>
+<p>Code: 503</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.AlreadyExistsError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">AlreadyExistsError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#AlreadyExistsError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.AlreadyExistsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>Link etc. Already Exists</p>
+<p>Code: 403</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.BadGatewayError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">BadGatewayError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#BadGatewayError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.BadGatewayError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>Failure in Rebrandly’s upstream providers</p>
+<p>Code: 502</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.BadRequestError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">BadRequestError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#BadRequestError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.BadRequestError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>Invalid JSON Request</p>
+<p>Code: 400</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.Error">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">Error</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#Error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.RebrandlyError" title="pyrebrandly.exceptions.RebrandlyError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.RebrandlyError</span></code></a></p>
+<p>Base Error</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.InternalServerError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">InternalServerError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#InternalServerError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.InternalServerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>API Endpoint Server Error</p>
+<p>Code: 500</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.InvalidFormatError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">InvalidFormatError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#InvalidFormatError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.InvalidFormatError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>Invalid input format</p>
+<p>Missing body</p>
+<p>Limits threshold reached</p>
+<p>Code: 403</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.NotAuthorizedError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">NotAuthorizedError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#NotAuthorizedError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.NotAuthorizedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>Authorization credentials invalid</p>
+<p>oAuth Token expired etc.</p>
+<p>Code: 401</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.NotFoundError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">NotFoundError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#NotFoundError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.NotFoundError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrebrandly.exceptions.APIError" title="pyrebrandly.exceptions.APIError"><code class="xref py py-class docutils literal"><span class="pre">pyrebrandly.exceptions.APIError</span></code></a></p>
+<p>Resource/Endpoint not found</p>
+<p>Code: 404</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrebrandly.exceptions.RebrandlyError">
+<em class="property">exception </em><code class="descclassname">pyrebrandly.exceptions.</code><code class="descname">RebrandlyError</code><span class="sig-paren">(</span><em>code</em>, <em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrebrandly/exceptions.html#RebrandlyError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrebrandly.exceptions.RebrandlyError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pyrebrandly</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pyrebrandly.html">pyrebrandly API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version.html">Version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">Using</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="pyrebrandly.html">pyrebrandly API</a><ul>
+      <li>Previous: <a href="request.html" title="previous chapter">Request</a></li>
+      <li>Next: <a href="version.html" title="next chapter">Version</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Ken Spencer.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/exceptions.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
