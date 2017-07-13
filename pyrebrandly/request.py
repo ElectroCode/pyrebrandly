@@ -1,4 +1,4 @@
-import os.path.join as _join
+from os.path import join as _join
 
 import pyrebrandly.version
 import pyrebrandly.exceptions as exc
