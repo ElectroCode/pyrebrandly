@@ -16,5 +16,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Natural Language :: English',
         'Operating System :: OS Independent',
-    ]
+    ],
+    scripts = ['scripts/pyrb']
 )
