@@ -40,28 +40,28 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrebrandly.exceptions</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="RebrandlyError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.RebrandlyError">[docs]</a><span></span><span class="k">class</span> <span class="nc">RebrandlyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="RebrandlyError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.RebrandlyError">[docs]</a><span></span><span class="k">class</span> <span class="nc">RebrandlyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span></div>
-<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="n">RebrandlyError</span><span class="p">):</span>
+<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="n">RebrandlyError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base Error</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
-<div class="viewcode-block" id="APIError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.APIError">[docs]</a><span class="k">class</span> <span class="nc">APIError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+<div class="viewcode-block" id="APIError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.APIError">[docs]</a><span class="k">class</span> <span class="nc">APIError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base API Error</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
-<div class="viewcode-block" id="BadRequestError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.BadRequestError">[docs]</a><span class="k">class</span> <span class="nc">BadRequestError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="BadRequestError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.BadRequestError">[docs]</a><span class="k">class</span> <span class="nc">BadRequestError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Invalid JSON Request</span>
 
 <span class="sd">    Code: 400</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
-<div class="viewcode-block" id="NotAuthorizedError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.NotAuthorizedError">[docs]</a><span class="k">class</span> <span class="nc">NotAuthorizedError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="NotAuthorizedError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.NotAuthorizedError">[docs]</a><span class="k">class</span> <span class="nc">NotAuthorizedError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Authorization credentials invalid</span>
 
@@ -71,7 +71,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="AlreadyExistsError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.AlreadyExistsError">[docs]</a><span class="k">class</span> <span class="nc">AlreadyExistsError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="AlreadyExistsError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.AlreadyExistsError">[docs]</a><span class="k">class</span> <span class="nc">AlreadyExistsError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Link etc. Already Exists</span>
 
@@ -79,7 +79,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="InvalidFormatError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.InvalidFormatError">[docs]</a><span class="k">class</span> <span class="nc">InvalidFormatError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="InvalidFormatError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.InvalidFormatError">[docs]</a><span class="k">class</span> <span class="nc">InvalidFormatError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Invalid input format</span>
 
@@ -91,7 +91,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="NotFoundError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.NotFoundError">[docs]</a><span class="k">class</span> <span class="nc">NotFoundError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="NotFoundError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.NotFoundError">[docs]</a><span class="k">class</span> <span class="nc">NotFoundError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resource/Endpoint not found</span>
 
@@ -99,7 +99,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="InternalServerError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.InternalServerError">[docs]</a><span class="k">class</span> <span class="nc">InternalServerError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="InternalServerError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.InternalServerError">[docs]</a><span class="k">class</span> <span class="nc">InternalServerError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    API Endpoint Server Error</span>
 
@@ -107,7 +107,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="BadGatewayError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.BadGatewayError">[docs]</a><span class="k">class</span> <span class="nc">BadGatewayError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="BadGatewayError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.BadGatewayError">[docs]</a><span class="k">class</span> <span class="nc">BadGatewayError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Failure in Rebrandly&#39;s upstream providers</span>
 
@@ -115,14 +115,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="APIUnavailableError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.APIUnavailableError">[docs]</a><span class="k">class</span> <span class="nc">APIUnavailableError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="APIUnavailableError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.APIUnavailableError">[docs]</a><span class="k">class</span> <span class="nc">APIUnavailableError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    API endpoint under maintenance</span>
 
 <span class="sd">    Code: 503</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
-<div class="viewcode-block" id="APITimeoutError"><a class="viewcode-back" href="../../exceptions.html#pyrebrandly.exceptions.APITimeoutError">[docs]</a><span class="k">class</span> <span class="nc">APITimeoutError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
+<div class="viewcode-block" id="APITimeoutError"><a class="viewcode-back" href="../../pyrebrandly/exceptions.html#pyrebrandly.exceptions.APITimeoutError">[docs]</a><span class="k">class</span> <span class="nc">APITimeoutError</span><span class="p">(</span><span class="n">APIError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    API Operation Timeout</span>
 
@@ -147,7 +147,7 @@
 
 <h3>Navigation</h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../pyrebrandly.html">pyrebrandly API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyrebrandly/index.html">pyrebrandly API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../using.html">Using</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>

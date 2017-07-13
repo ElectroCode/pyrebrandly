@@ -3,7 +3,7 @@ Installation
 
 .. toctree::
     :maxdepth: 2
-    .. caption:: Sections
+    :caption: Sections
 
 Installing via Pip
 ------------------
