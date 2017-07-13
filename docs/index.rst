@@ -7,6 +7,7 @@ Welcome to pyrebrandly's documentation!
 =======================================
 
 .. toctree::
+    :glob:
     :maxdepth: 2
 
     pyrebrandly/*
