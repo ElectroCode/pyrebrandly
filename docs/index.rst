@@ -10,7 +10,7 @@ Welcome to pyrebrandly's documentation!
     :glob:
     :maxdepth: 2
 
-    pyrebrandly/
+    pyrebrandly/index
     installation
     using
     about
