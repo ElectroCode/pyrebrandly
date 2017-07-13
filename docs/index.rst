@@ -9,7 +9,7 @@ Welcome to pyrebrandly's documentation!
 .. toctree::
     :maxdepth: 2
 
-    pyrebrandly
+    pyrebrandly/*
     installation
     using
     about
