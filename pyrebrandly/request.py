@@ -190,6 +190,7 @@ class Request:
 
     class Domain:
         """
+        Rebrandly Domains API Actions
         """
         path = 'domains'
 
@@ -248,7 +249,7 @@ class Request:
 
     class Account:
         """
-
+        Rebrandly Account API Actions
         """
         path = 'account'
 
