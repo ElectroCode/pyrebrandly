@@ -1,7 +1,7 @@
 Request
 =======
 
-.. py:currentmodule:: pyrebrandly.request
+.. module:: pyrebrandly.request
 
 .. autoclass:: Account
     :members:
