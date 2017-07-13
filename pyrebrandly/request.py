@@ -1,3 +1,5 @@
+import os.path.join as _join
+
 import pyrebrandly.version
 import pyrebrandly.exceptions as exc
 
@@ -9,7 +11,6 @@ class Request:
     Base class for Rebrandly API actions
     """
 
-    base_uri = 'api.rebrandly.com/v1'
 
     @property
     def __version__(self):
@@ -37,7 +38,7 @@ class Request:
         self.api_key = api_key
         self.domain_name = domain_name
         self.domain_id = domain_id
-        self.uri = base_uri
+        self.uri = 'api.rebrandly.com/v1'
 
         if domain_id and domain_name:
             self.domain = {
@@ -50,7 +51,7 @@ class Request:
         if team_id:
             hdrs['team'] = team_id
 
-    def make_path(self, path, params, uri=base_uri):
+    def make_path(self, path, params):
         """
 
         :param path: Method path
@@ -62,214 +63,214 @@ class Request:
         :returns: Joined path
         :rtype: str
         """
-        return _join(uri, path, params)
+        return _join(self.uri, path, params)
 
 
-class Links(Request):
-    """
-
-    Rebrandly.Links class
-
-    For managing links, including adding, removing, updating, returning
-    """
-    path = "links"
-
-    def list(options=None):
+    class Links:
         """
-        Lists links that follow certain criteria
 
-        orderBy => {createdAt, updatedAt, title, slashtag} -- Sort by
+        Rebrandly.Links class
 
-        orderDir=> {desc, asc} -- Order Direction
-
-        offset => N -- Skip N links
-
-        limit => N -- Limit to N links
-
-        favourite => true/false -- optional, shows or hides favourites if given
-
-        status => active -- Sort by status, {active, trashed}
-
-        :param options: A Dict of options
-        :type options: dict
-
-        :returns: RebrandlyResponse
-
+        For managing links, including adding, removing, updating, returning
         """
-        if not options:
-            r = requests.get('/', options)
-            status_code = r.status_code
-            response = RebrandlyResponse.raise_exception(status_code, r.json())
-            if response == 'ok':
-                return response['response']
+        path = "links"
 
-    def get(id=None, options=None):
-        """
-        :param id: Link ID to lookup
-        :type id: str
-        :param options: A Dict of options
-        :type options: dict
+        def list(options=None):
+            """
+            Lists links that follow certain criteria
 
-        :returns: RebrandlyResponse
-        """
-        if id is None:
-            raise exc.APIError
-        if options is None:
-            return requests.get("/{}")
-        else:
-            return requests.get("/{}", options)
+            orderBy => {createdAt, updatedAt, title, slashtag} -- Sort by
 
-    def count(options=None):
-        """
-        :param options: A Dict of options
-        :type options: dict
+            orderDir=> {desc, asc} -- Order Direction
 
-        :returns: RebrandlyResponse
-        """
-        if options is None:
-            return requests.get("/count")
-        else:
-            return requests.get('/count', options)
+            offset => N -- Skip N links
 
-    def new(method=None, options=None):
-        """
-        :param method: POST or GET HTTP method
-        :type method: str
-        :param options: Dict of Options
-        :type options: dict
+            limit => N -- Limit to N links
 
-        :returns: RebrandlyResponse
+            favourite => true/false -- optional, shows or hides favourites if given
 
-        """
-        if method == 'get':
-            if options:
-                return requests.get('/new')
+            status => active -- Sort by status, {active, trashed}
+
+            :param options: A Dict of options
+            :type options: dict
+
+            :returns: RebrandlyResponse
+
+            """
+            if not options:
+                r = requests.get('/', options)
+                status_code = r.status_code
+                response = Response.raise_exception(status_code, r.json())
+                if response == 'ok':
+                    return response['response']
+
+        def get(id=None, options=None):
+            """
+            :param id: Link ID to lookup
+            :type id: str
+            :param options: A Dict of options
+            :type options: dict
+
+            :returns: RebrandlyResponse
+            """
+            if id is None:
+                raise exc.APIError
+            if options is None:
+                return requests.get("/{}")
             else:
-                return requests.get('/new', options)
-        if method == 'post':
+                return requests.get("/{}", options)
+
+        def count(options=None):
+            """
+            :param options: A Dict of options
+            :type options: dict
+
+            :returns: RebrandlyResponse
+            """
+            if options is None:
+                return requests.get("/count")
+            else:
+                return requests.get('/count', options)
+
+        def new(method=None, options=None):
+            """
+            :param method: POST or GET HTTP method
+            :type method: str
+            :param options: Dict of Options
+            :type options: dict
+
+            :returns: RebrandlyResponse
+
+            """
+            if method == 'get':
+                if options:
+                    return requests.get('/new')
+                else:
+                    return requests.get('/new', options)
+            if method == 'post':
+                if options is None:
+                    return requests.get('/')
+                else:
+                    return requests.get('/', options)
+
+        def update(id=None, options=None):
+            """
+            :param id: Link ID to update
+            :type id: str
+            :param options: A Dict of options
+            :type options: dict
+            """
+            if options is None:
+                raise exc.APIError("Rebrandly#update must be used with options.")
+            else:
+                return requests.post("/{}", options)
+
+        def delete(id=None, options=None):
+            """
+            :param id: Link ID
+            :type id: str
+            :param options: Options Dict
+            :type options: dict
+            """
+            if id == None:
+                raise exc.APIError("No ID to delete")
+
+            else:
+                if options:
+                    return requests.delete("/{}".format(id))
+                else:
+                    if options.keys == ['trash']:
+                        if options['trash'] == True or options['trash'] == False:
+                            return requests.delete("/{}".format(id), options)
+                        else:
+                            raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                    else:
+                        raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+
+
+    class Domain:
+        """
+        """
+        path = 'domains'
+
+        def list(options=None):
+            """
+            List the domains in the account.
+
+            :param options:
+                active
+                    optional boolean -- true/false
+                type:
+                    optional string -- user/service
+                orderBy:
+                    optional string -- criteria to filter by/ createdAt, updatedAt, fullName
+                orderDir:
+                    optional string -- Order Direction, asc/desc
+                offset:
+                    optional integer -- skip N domains
+                limit:
+                    optional integer -- limit to N domains
+            :type options: dict
+
+            :returns: RebrandlyResponse
+            """
             if options is None:
                 return requests.get('/')
             else:
                 return requests.get('/', options)
 
-    def update(id=None, options=None):
-        """
-        :param id: Link ID to update
-        :type id: str
-        :param options: A Dict of options
-        :type options: dict
-        """
-        if options is None:
-            raise exc.APIError("Rebrandly#update must be used with options.")
-        else:
-            return requests.post("/{}", options)
+        def get(id=None):
+            """
+            Return information about a certain domain.
 
-    def delete(id=None, options=None):
-        """
-        :param id: Link ID
-        :type id: str
-        :param options: Options Dict
-        :type options: dict
-        """
-        if id == None:
-            raise exc.APIError("No ID to delete")
+            :param id: domain ID to pull information about
+            :type id: str
 
-        else:
-            if options:
-                return requests.delete("/{}".format(id))
+            :returns: RebrandlyResponse
+            """
+            return requests.get("/{}".format(id))
+
+        def count(options=None):
+            """
+            Count the number of Domains the account has
+
+            :param options: Options
+            :type options: dict
+
+            :returns: RebrandlyResponse
+
+            """
+            if options is None:
+                return requests.get("/count")
             else:
-                if options.keys == ['trash']:
-                    if options['trash'] == True or options['trash'] == False:
-                        return requests.delete("/{}".format(id), options)
-                    else:
-                        raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
-                else:
-                    raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                return requests.get("/count", options)
 
 
-class Domain(Request):
-    """
-    """
-    path = 'domains'
-
-    def list(options=None):
-        """
-        List the domains in the account.
-
-        :param options:
-            active
-                optional boolean -- true/false
-            type:
-                optional string -- user/service
-            orderBy:
-                optional string -- criteria to filter by/ createdAt, updatedAt, fullName
-            orderDir:
-                optional string -- Order Direction, asc/desc
-            offset:
-                optional integer -- skip N domains
-            limit:
-                optional integer -- limit to N domains
-        :type options: dict
-
-        :returns: RebrandlyResponse
-        """
-        if options is None:
-            return requests.get('/')
-        else:
-            return requests.get('/', options)
-
-    def get(id=None):
-        """
-        Return information about a certain domain.
-
-        :param id: domain ID to pull information about
-        :type id: str
-
-        :returns: RebrandlyResponse
-        """
-        return requests.get("/{}".format(id))
-
-    def count(options=None):
-        """
-        Count the number of Domains the account has
-
-        :param options: Options
-        :type options: dict
-
-        :returns: RebrandlyResponse
-
-        """
-        if options is None:
-            return requests.get("/count")
-        else:
-            return requests.get("/count", options)
-
-
-class Account(Request):
-    """
-
-    """
-    path = 'account'
-
-    def get(options=None):
-        """
-        Get account information
-
-        :param dict options: A dict of options
-
+    class Account:
         """
 
-    def teams(options=None):
         """
-        :param options: Options to filter teams by
-        :type options: dict
+        path = 'account'
 
-        :returns: RebrandlyResponse
-        """
-        if options is None:
-            return requests.get("/teams")
-        else:
-            return requests.get("/teams", options)
+        def get(options=None):
+            """
+            Get account information
+
+            :param dict options: A dict of options
+
+            """
+
+        def teams(options=None):
+            """
+            :param options: Options to filter teams by
+            :type options: dict
+
+            :returns: RebrandlyResponse
+            """
+            if options is None:
+                return requests.get("/teams")
+            else:
+                return requests.get("/teams", options)
 
 
 class Response(requests.Response):
@@ -283,7 +284,7 @@ class Response(requests.Response):
         return self.tuple
 
     @staticmethod
-    def raise_exception(code, rebrandly_response):
+    def raise_exception(code, rebrandly_response) -> dict or exc.RebrandlyError:
         """
         Raise an exception based on whether we got an error, and which one.
 
@@ -291,8 +292,8 @@ class Response(requests.Response):
         :type code:
         :param rebrandly_response:
         :type rebrandly_response:
-        :return:
-        :rtype:
+        :return: object
+        :rtype: dict or exc.RebrandlyError
         """
         if code == 200:
             return {
