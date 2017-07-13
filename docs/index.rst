@@ -14,6 +14,7 @@ Welcome to pyrebrandly's documentation!
     installation
     using
     about
+    donate
 
 
 Indices and tables
