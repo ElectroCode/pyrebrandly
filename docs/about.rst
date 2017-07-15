@@ -3,7 +3,7 @@
 About
 #####
 
-I made pyrebrandly and its cousin `rebrandlyrb <https://github.com/ElectroCode/rebrandlyrb>` out of wanting to make it easier to use the `Rebrandly`_ API.
+I made pyrebrandly and its cousin `rebrandlyrb <https://github.com/ElectroCode/rebrandlyrb>`_ out of wanting to make it easier to use the `Rebrandly`_ API.
 
 .. _about#legal:
 
