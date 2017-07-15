@@ -1,8 +1,12 @@
 from . import exceptions, request, version
 __all__ = ()
 
-api_key = None
-domain_id = None
-domain_name = None
-team_id = None
+from orderedattrdict import DefaultAttrDict
+tree = lambda: DefaultAttrDict(tree)
+
+config = tree()
+config.api.key = None
+config.domain.id = None
+config.domain.name = None
+config.team.id = None
 
