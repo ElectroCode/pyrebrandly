@@ -17,8 +17,8 @@ setup(
     ],
 
 
-    install_requires=[
-        'requests>=2.10.0'
-    ],
+#    install_requires=[
+#        'requests>=2.10.0'
+#    ],
     scripts = ['scripts/pyrb']
 )
