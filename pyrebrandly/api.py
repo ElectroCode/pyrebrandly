@@ -1,23 +1,15 @@
 from os.path import join as _join
 
-import pyrebrandly.version
 import pyrebrandly.exceptions as exc
 
 import requests
 import json
 
+
 class Request:
     """
     Base class for Rebrandly API actions
     """
-
-
-    @property
-    def __version__(self):
-        """
-        :returns: version
-        """
-        return repr(pyrebrandly.version.pyrebrandly)
 
     def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id=None):
         """

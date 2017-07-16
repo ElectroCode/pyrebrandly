@@ -15,10 +15,5 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
     ],
-
-
-#    install_requires=[
-#        'requests>=2.10.0'
-#    ],
     scripts = ['scripts/pyrb']
 )
