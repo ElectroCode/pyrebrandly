@@ -1,4 +1,6 @@
-from . import exceptions, api
+from .api import *
+from .exceptions import *
+
 __all__ = ()
 
 __version__ = '0.8.1'

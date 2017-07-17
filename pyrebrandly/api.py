@@ -1,15 +1,33 @@
 from os.path import join as _join
-
+import os
 import pyrebrandly.exceptions as exc
 
 import requests
-import json
+
+API_ENDPOINT = 'api.rebrandly.com/v1'
+
+def make_path(path, params):
+    """
+
+    :param path: Method path
+    :type path: str
+    :param params: Path Parameters (ID, etc.)
+    :type params: str
+    :param uri: API endpoint
+    :type uri: str
+    :returns: Joined path
+    :rtype: str
+    """
+    return _join(API_ENDPOINT, path, params)
 
 
-class Request:
+class Client:
     """
     Base class for Rebrandly API actions
     """
+    __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id', 'domain']
+
+
 
     def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id=None):
         """
@@ -27,10 +45,9 @@ class Request:
 
         hdrs = {}
 
-        self.api_key = api_key
+        self.api_key = api_key or os.environ.get('REBRANDLY_API_KEY')
         self.domain_name = domain_name
         self.domain_id = domain_id
-        self.uri = 'api.rebrandly.com/v1'
 
         if domain_id and domain_name:
             self.domain = {
@@ -43,19 +60,6 @@ class Request:
         if team_id:
             hdrs['team'] = team_id
 
-    def make_path(self, path, params):
-        """
-
-        :param path: Method path
-        :type path: str
-        :param params: Path Parameters (ID, etc.)
-        :type params: str
-        :param uri: API endpoint
-        :type uri: str
-        :returns: Joined path
-        :rtype: str
-        """
-        return _join(self.uri, path, params)
 
 
     class Links:
@@ -208,11 +212,11 @@ class Request:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get('/')
+                return requests.get(make_path(path))
             else:
                 return requests.get('/', options)
 
-        def get(id=None):
+        def get(self, id=None):
             """
             Return information about a certain domain.
 
@@ -223,7 +227,7 @@ class Request:
             """
             return requests.get("/{}".format(id))
 
-        def count(options=None):
+        def count(self, options=None):
             """
             Count the number of Domains the account has
 

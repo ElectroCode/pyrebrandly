@@ -1,0 +1,3 @@
+import pyrebrandly
+
+cfg = pyrebrandly.Client
