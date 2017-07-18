@@ -23,12 +23,10 @@ class Client:
     def make_path(cls=None, path=None, *extra):
         """Make a request path
 
-        :param cls: Class Path (usually self.path)
+        :param cls: Class Path (usually Client..path)
         :type cls: str
         :param path: Method path
         :type path: str
-        :param uri: API endpoint
-        :type uri: str
         :returns: Joined path
         :rtype: str
         """
@@ -74,12 +72,10 @@ class Client:
 
         For managing links, including adding, removing, updating, returning
         """
-        __slots__ = ['path']
-
-        def __init__(self):
-            self.path = "links"
-
-        def list(self=None, options=None):
+        path = "links"
+        
+        @staticmethod
+        def list(options=None):
             """
             Lists links that follow certain criteria
 
@@ -102,10 +98,11 @@ class Client:
 
             """
             if not options:
-                r = requests.get(Client.make_path(self.path), json=options)
+                r = requests.get(Client.make_path(Client.Links.path), json=options)
                 return dir(r)
-
-        def get(self=None, link: str = None, options: dict =None):
+            
+        @staticmethod
+        def get(link=None, options=None):
             """
             :param link: Link ID to lookup
             :type link: str
@@ -117,11 +114,12 @@ class Client:
             if id is None:
                 raise APIError
             if options is None:
-                return requests.get(Client.make_path(self.path, link))
+                return requests.get(Client.make_path(Client.Links.path, link))
             else:
-                return requests.get(Client.make_path(self.path, link), json=options)
+                return requests.get(Client.make_path(Client.Links.path, link), json=options)
 
-        def count(self=None, options=None):
+        @staticmethod
+        def count(options=None):
             """
             :param options: A Dict of options
             :type options: dict
@@ -129,11 +127,12 @@ class Client:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get(Client.make_path(self.path, 'count'))
+                return requests.get(Client.make_path(Client.Links.path, 'count'))
             else:
-                return requests.get(Client.make_path(self.path, 'count'), json=options)
+                return requests.get(Client.make_path(Client.Links.path, 'count'), json=options)
 
-        def new(self=None, method=None, options=None):
+        @staticmethod
+        def new(method=None, options=None):
             """Add a new Link
 
             :param method: GET or POST
@@ -146,17 +145,19 @@ class Client:
             """
             if method == 'get':
                 if options:
-                    return requests.get(Client.make_path(self.path, 'new'))
+                    return requests.get(Client.make_path(Client.Links.path, 'new'))
                 else:
-                    return requests.get(Client.make_path(self.path, 'new'), json=options)
+                    return requests.get(Client.make_path(Client.Links.path, 'new'), json=options)
             if method == 'post':
                 if options is None:
-                    return requests.post(Client.make_path(self.path))
+                    return requests.post(Client.make_path(Client.Links.path))
                 else:
-                    return requests.post(Client.make_path(self.path), json=options)
+                    return requests.post(Client.make_path(Client.Links.path), json=options)
 
-        def update(self=None, link=None, options=None):
+        @staticmethod
+        def update(link=None, options=None):
             """
+            :rtype: object
             :param link: Link ID to update
             :type link: str
             :param options: A Dict of options
@@ -165,9 +166,10 @@ class Client:
             if options is None and link is None:
                 raise NotEnoughArgumentsError(func='Client.Links#update', args=['link', 'options'])
             else:
-                return requests.post(Client.make_path(self.path, link), json=options)
+                return requests.post(Client.make_path(Client.Links.path, link), json=options)
 
-        def delete(self=None, link=None, options=None):
+        @staticmethod
+        def delete(link=None, options=None):
             """
             :param link: Link ID
             :type link: str
@@ -180,7 +182,7 @@ class Client:
             else:
                 if options:
                     if options.keys == ['trash']:
-                        return requests.delete(Client.make_path(self.path, link), json=options)
+                        return requests.delete(Client.make_path(Client.Links.path, link), json=options)
                     else:
                         raise InvalidOptionsError(possible=['trash'], invalid=options.keys())
 
@@ -188,14 +190,13 @@ class Client:
         """
         Rebrandly Domains API Actions
         """
-        def __init__(self):
-            self.path = 'domains'
-
-        def list(self=None, options=None):
+        path = 'domains'
+            
+        @staticmethod
+        def list(options=None):
             """
             List the domains in the account.
-            :param self:
-            :type self:
+
             :param options:
                 active
                     optional boolean -- true/false
@@ -214,11 +215,12 @@ class Client:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get(Client.make_path(self.path, ''))
+                return requests.get(Client.make_path(Client.Domain.path, ''))
             else:
-                return requests.get(Client.make_path(self.path, ''), json=options)
+                return requests.get(Client.make_path(Client.Domain.path, ''), json=options)
 
-        def get(self=None, domain=None):
+        @staticmethod
+        def get(domain=None):
             """
             Return information about a certain domain.
 
@@ -227,9 +229,10 @@ class Client:
 
             :returns: RebrandlyResponse
             """
-            return requests.get(Client.make_path(self.path, domain))
+            return requests.get(Client.make_path(Client.Domain.path, domain))
 
-        def count(self, options=None):
+        @staticmethod
+        def count(options=None):
             """
             Count the number of Domains the account has
 
@@ -240,18 +243,18 @@ class Client:
 
             """
             if options is None:
-                return requests.get(Client.make_path(self.path, 'count'))
+                return requests.get(Client.make_path(Client.Domain.path, 'count'))
             else:
-                return requests.get(Client.make_path(self.path, 'count'), json=options)
+                return requests.get(Client.make_path(Client.Domain.path, 'count'), json=options)
 
     class Account:
         """
         Rebrandly Account API Actions
         """
-        def __init__(self):
-            self.path = 'account'
+        path = 'account'
 
-        def get(self=None, options: object=None):
+        @staticmethod
+        def get(options=None):
             """
             Get account information
 
@@ -259,20 +262,22 @@ class Client:
             :type options: dict
             """
             if options:
-                return requests.get(Client.make_path(self.path), json=options)
+                return requests.get(Client.make_path(Client.Account.path), json=options)
             else:
-                return requests.get(Client.make_path(self.path))
-        def teams(self=None, options: object=None):
+                return requests.get(Client.make_path(Client.Account.path))
+            
+        @staticmethod
+        def teams(options=None):
             """
             :param options: Options to filter teams by
             :type options: dict
 
-            :returns: RebrandlyResponse
+
             """
             if options is None:
-                return requests.get(Client.make_path(self.path, 'teams'))
+                return requests.get(Client.make_path(Client.Account.path, 'teams'))
             else:
-                return requests.get(Client.make_path(self.path, 'teams'), json=options)
+                return requests.get(Client.make_path(Client.Account.path, 'teams'), json=options)
 
 
 class Response(requests.Response):
