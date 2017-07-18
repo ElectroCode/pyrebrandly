@@ -20,8 +20,30 @@ class APIError(Error):
 
 
 class NotEnoughArgumentsError(APIError):
-    pass
+    """
+    Not Enough Arguments for method
+    """
+    def __init__(self, *, func=None, args=None):
+        self.func = func
+        self.args = args
 
+    def __repr__(self):
+        return 'not enough arguments for {}, needed args: {}'.format(self.func, self.args)
+
+
+class InvalidOptionsError(APIError):
+    """
+    Invalid Options in Options dict()
+
+    :exception InvalidOptionsError
+    """
+
+    def __init__(self, *, possible=None, invalid=None):
+        self.possible_opts = possible
+        self.invalid_opts = invalid
+
+    def __repr__(self):
+        return 'invalid options used in dict, invalid: {}, possible: {}'.format(self.invalid_opts, self.possible_opts)
 
 class BadRequestError(APIError):
     """
