@@ -185,8 +185,7 @@ class Client:
                     if options.keys == ['trash']:
                         return requests.delete(Client.make_path(self.path, link), json=options)
                     else:
-                        raise
-
+                        raise InvalidOptionsError(possible=['trash'], invalid=options.keys())
 
     class Domain:
         """
@@ -262,6 +261,10 @@ class Client:
             :param options: Options
             :type options: dict
             """
+            if options:
+                return requests.get(Client.make_path(self.path), json=options)
+            else:
+                return requests.get(Client.make_path(self.path))
         def teams(self=None, options: object=None):
             """
             :param options: Options to filter teams by
@@ -270,9 +273,9 @@ class Client:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get("/teams")
+                return requests.get(Client.make_path(self.path, 'teams'))
             else:
-                return requests.get("/teams", options)
+                return requests.get(Client.make_path(self.path, 'teams'), json=options)
 
 
 class Response(requests.Response):
