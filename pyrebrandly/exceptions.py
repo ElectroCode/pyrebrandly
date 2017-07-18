@@ -1,17 +1,28 @@
 class RebrandlyError(Exception):
-    def __init__(self, code, msg):
-        self.code = code
-        self.msg = msg
+    """
+    Base+Base Error
+    """
+    pass
+
+
 class Error(RebrandlyError):
     """
     Base Error
     """
     pass
+
+
 class APIError(Error):
     """
     Base API Error
     """
     pass
+
+
+class NotEnoughArgumentsError(APIError):
+    pass
+
+
 class BadRequestError(APIError):
     """
     Invalid JSON Request
@@ -19,6 +30,8 @@ class BadRequestError(APIError):
     Code: 400
     """
     pass
+
+
 class NotAuthorizedError(APIError):
     """
     Authorization credentials invalid
@@ -29,6 +42,7 @@ class NotAuthorizedError(APIError):
     """
     pass
 
+
 class AlreadyExistsError(APIError):
     """
     Link etc. Already Exists
@@ -36,6 +50,7 @@ class AlreadyExistsError(APIError):
     Code: 403
     """
     pass
+
 
 class InvalidFormatError(APIError):
     """
@@ -49,6 +64,7 @@ class InvalidFormatError(APIError):
     """
     pass
 
+
 class NotFoundError(APIError):
     """
     Resource/Endpoint not found
@@ -56,6 +72,7 @@ class NotFoundError(APIError):
     Code: 404
     """
     pass
+
 
 class InternalServerError(APIError):
     """
@@ -65,6 +82,7 @@ class InternalServerError(APIError):
     """
     pass
 
+
 class BadGatewayError(APIError):
     """
     Failure in Rebrandly's upstream providers
@@ -73,6 +91,7 @@ class BadGatewayError(APIError):
     """
     pass
 
+
 class APIUnavailableError(APIError):
     """
     API endpoint under maintenance
@@ -80,6 +99,8 @@ class APIUnavailableError(APIError):
     Code: 503
     """
     pass
+
+
 class APITimeoutError(APIError):
     """
     API Operation Timeout
