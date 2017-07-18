@@ -7,4 +7,4 @@ Using ``pyrebrandly`` is pretty easy, its just like any other library, although 
 
     import pyrebrandly
 
-    client = pyrebrandly.Client
+    client = pyrebrandly.Client(key='xxxxxxxx', id='xxxxxxxxx', )
