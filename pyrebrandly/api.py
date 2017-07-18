@@ -102,11 +102,8 @@ class Client:
 
             """
             if not options:
-                r = requests.get(Client.make_path(self.path, '/'), options)
-                status_code = r.status_code
-                response = Response.raise_exception(status_code, r.json())
-                if response == 'ok':
-                    return response['response']
+                r = requests.get(Client.make_path(self.path), json=options)
+                return dir(r)
 
         def get(self=None, link: str = None, options: dict =None):
             """
