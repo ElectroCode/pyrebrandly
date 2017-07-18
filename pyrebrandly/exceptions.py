@@ -39,6 +39,10 @@ class InvalidOptionsError(APIError):
     """
 
     def __init__(self, *, possible=None, invalid=None):
+        """
+
+        :rtype: object
+        """
         self.possible_opts = possible
         self.invalid_opts = invalid
 
