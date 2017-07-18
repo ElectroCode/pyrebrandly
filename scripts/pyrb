@@ -1,3 +1,13 @@
 import pyrebrandly
+import click
 
-cfg = pyrebrandly.Client
+@click.command()
+@click.option('--key', prompt="API Key:")
+@click.option('--id', prompt="Domain ID:")
+@click.option('--name', prompt="Domain Name:")
+@click.option('--team', prompt="Team ID:")
+def grab_options(key, id, name, team):
+    """Grab the options from the command line or prompt,
+    if they exist in environment variables they will be catched through initialization."""
+
+cfg = pyrebrandly.Client()
