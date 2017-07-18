@@ -8,6 +8,9 @@ from .exceptions import *
 # 3rd party
 import requests
 
+# TODO:
+#       1. Make Links, Domain, Account inherit from requests.Session()
+
 
 class Client:
     """
@@ -20,10 +23,10 @@ class Client:
     def make_path(cls=None, path=None, *extra):
         """Make a request path
 
+        :param cls: Class Path (usually self.path)
+        :type cls: str
         :param path: Method path
         :type path: str
-        :param params: Path Parameters (ID, etc.)
-        :type params: str
         :param uri: API endpoint
         :type uri: str
         :returns: Joined path
@@ -105,7 +108,7 @@ class Client:
                 if response == 'ok':
                     return response['response']
 
-        def get(self=None, link: object = None, options: object =None):
+        def get(self=None, link: str = None, options: dict =None):
             """
             :param link: Link ID to lookup
             :type link: str
@@ -117,9 +120,9 @@ class Client:
             if id is None:
                 raise APIError
             if options is None:
-                return requests.get(Client.make_path(self.path, '', extra=link))
+                return requests.get(Client.make_path(self.path, link))
             else:
-                return requests.get(Client.make_path(self.path, '', extra=link), options)
+                return requests.get(Client.make_path(self.path, link), json=options)
 
         def count(self=None, options=None):
             """
@@ -163,31 +166,26 @@ class Client:
             :type options: dict
             """
             if options is None and link is None:
-                raise APIError("Rebrandly#update must be used with options AND link.")
+                raise NotEnoughArgumentsError(func='Client.Links#update', args=['link', 'options'])
             else:
-                return requests.post("/{}", json=options)
+                return requests.post(Client.make_path(self.path, link), json=options)
 
-        def delete(id=None, options=None):
+        def delete(self=None, link=None, options=None):
             """
-            :param id: Link ID
-            :type id: str
+            :param link: Link ID
+            :type link: str
             :param options: Options Dict
             :type options: dict
             """
-            if id == None:
-                raise APIError("No ID to delete")
+            if link is None:
+                raise NotEnoughArgumentsError(func='Client.Links#delete', args=['link'])
 
             else:
                 if options:
-                    return requests.delete("/{}".format(id))
-                else:
                     if options.keys == ['trash']:
-                        if options['trash'] == True or options['trash'] == False:
-                            return requests.delete("/{}".format(id), options)
-                        else:
-                            raise APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                        return requests.delete(Client.make_path(self.path, link), json=options)
                     else:
-                        raise APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                        raise
 
 
     class Domain:
@@ -200,8 +198,9 @@ class Client:
         def list(self=None, options=None):
             """
             List the domains in the account.
-
             :param self:
+            :type self:
+            :param options:
                 active
                     optional boolean -- true/false
                 type:
@@ -214,25 +213,25 @@ class Client:
                     optional integer -- skip N domains
                 limit:
                     optional integer -- limit to N domains
-            :type self: dict
+            :type options: dict
 
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get(Client.make_path(path))
+                return requests.get(Client.make_path(self.path, ''))
             else:
-                return requests.get('/', options)
+                return requests.get(Client.make_path(self.path, ''), json=options)
 
-        def get(self, id=None):
+        def get(self=None, domain=None):
             """
             Return information about a certain domain.
 
-            :param id: domain ID to pull information about
-            :type id: str
+            :param domain: domain ID to pull information about
+            :type domain: str
 
             :returns: RebrandlyResponse
             """
-            return requests.get("/{}".format(id))
+            return requests.get(Client.make_path(self.path, domain))
 
         def count(self, options=None):
             """
@@ -245,9 +244,9 @@ class Client:
 
             """
             if options is None:
-                return requests.get("/count")
+                return requests.get(Client.make_path(self.path, 'count'))
             else:
-                return requests.get("/count", options)
+                return requests.get(Client.make_path(self.path, 'count'), json=options)
 
     class Account:
         """
@@ -260,10 +259,9 @@ class Client:
             """
             Get account information
 
-            :param dict options: A dict of options
-
+            :param options: Options
+            :type options: dict
             """
-
         def teams(self=None, options: object=None):
             """
             :param options: Options to filter teams by
