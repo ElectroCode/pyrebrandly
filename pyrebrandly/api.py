@@ -1,33 +1,35 @@
+# built-ins
 from os.path import join as _join
 import os
-import pyrebrandly.exceptions as exc
 
+# local
+from .exceptions import *
+
+# 3rd party
 import requests
-
-API_ENDPOINT = 'api.rebrandly.com/v1'
-
-def make_path(path, params):
-    """
-
-    :param path: Method path
-    :type path: str
-    :param params: Path Parameters (ID, etc.)
-    :type params: str
-    :param uri: API endpoint
-    :type uri: str
-    :returns: Joined path
-    :rtype: str
-    """
-    return _join(API_ENDPOINT, path, params)
 
 
 class Client:
     """
     Base class for Rebrandly API actions
     """
-    __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id', 'domain']
+    __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id', 'domain', 'hdrs']
+    API_ENDPOINT = 'api.rebrandly.com/v1'
 
+    @staticmethod
+    def make_path(cls=None, path=None, *extra):
+        """Make a request path
 
+        :param path: Method path
+        :type path: str
+        :param params: Path Parameters (ID, etc.)
+        :type params: str
+        :param uri: API endpoint
+        :type uri: str
+        :returns: Joined path
+        :rtype: str
+        """
+        return _join(Client.API_ENDPOINT, cls, path, extra)
 
     def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id=None):
         """
@@ -46,8 +48,9 @@ class Client:
         hdrs = {}
 
         self.api_key = api_key or os.environ.get('REBRANDLY_API_KEY')
-        self.domain_name = domain_name
-        self.domain_id = domain_id
+        self.domain_name = domain_name or os.environ.get('REBRANDLY_DEF_DOMAIN_NAME')
+        self.domain_id = domain_id or os.environ.get('REBRANDLY_DEF_DOMAIN_ID')
+        self.team_id = team_id or os.environ.get('REBRANDLY_DEF_TEAM_ID')
 
         if domain_id and domain_name:
             self.domain = {
@@ -59,8 +62,7 @@ class Client:
         hdrs['apikey'] = api_key
         if team_id:
             hdrs['team'] = team_id
-
-
+        self.hdrs = hdrs
 
     class Links:
         """
@@ -69,9 +71,12 @@ class Client:
 
         For managing links, including adding, removing, updating, returning
         """
-        path = "links"
+        __slots__ = ['path']
 
-        def list(options=None):
+        def __init__(self):
+            self.path = "links"
+
+        def list(self=None, options=None):
             """
             Lists links that follow certain criteria
 
@@ -94,29 +99,29 @@ class Client:
 
             """
             if not options:
-                r = requests.get('/', options)
+                r = requests.get(Client.make_path(self.path, '/'), options)
                 status_code = r.status_code
                 response = Response.raise_exception(status_code, r.json())
                 if response == 'ok':
                     return response['response']
 
-        def get(id=None, options=None):
+        def get(self=None, link: object = None, options: object =None):
             """
-            :param id: Link ID to lookup
-            :type id: str
+            :param link: Link ID to lookup
+            :type link: str
             :param options: A Dict of options
             :type options: dict
 
             :returns: RebrandlyResponse
             """
             if id is None:
-                raise exc.APIError
+                raise APIError
             if options is None:
-                return requests.get("/{}")
+                return requests.get(Client.make_path(self.path, '', extra=link))
             else:
-                return requests.get("/{}", options)
+                return requests.get(Client.make_path(self.path, '', extra=link), options)
 
-        def count(options=None):
+        def count(self=None, options=None):
             """
             :param options: A Dict of options
             :type options: dict
@@ -124,14 +129,15 @@ class Client:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get("/count")
+                return requests.get(Client.make_path(self.path, 'count'))
             else:
-                return requests.get('/count', options)
+                return requests.get(Client.make_path(self.path, 'count'), json=options)
 
-        def new(method=None, options=None):
-            """
-            :param method: POST or GET HTTP method
-            :type method: str
+        def new(self=None, method=None, options=None):
+            """Add a new Link
+
+            :param method: GET or POST
+            :type method:
             :param options: Dict of Options
             :type options: dict
 
@@ -140,26 +146,26 @@ class Client:
             """
             if method == 'get':
                 if options:
-                    return requests.get('/new')
+                    return requests.get(Client.make_path(self.path, 'new'))
                 else:
-                    return requests.get('/new', options)
+                    return requests.get(Client.make_path(self.path, 'new'), json=options)
             if method == 'post':
                 if options is None:
-                    return requests.get('/')
+                    return requests.post(Client.make_path(self.path))
                 else:
-                    return requests.get('/', options)
+                    return requests.post(Client.make_path(self.path), json=options)
 
-        def update(id=None, options=None):
+        def update(self=None, link=None, options=None):
             """
-            :param id: Link ID to update
-            :type id: str
+            :param link: Link ID to update
+            :type link: str
             :param options: A Dict of options
             :type options: dict
             """
             if options is None:
-                raise exc.APIError("Rebrandly#update must be used with options.")
+                raise APIError("Rebrandly#update must be used with options.")
             else:
-                return requests.post("/{}", options)
+                return requests.post("/{}", json=options)
 
         def delete(id=None, options=None):
             """
@@ -169,7 +175,7 @@ class Client:
             :type options: dict
             """
             if id == None:
-                raise exc.APIError("No ID to delete")
+                raise APIError("No ID to delete")
 
             else:
                 if options:
@@ -179,22 +185,23 @@ class Client:
                         if options['trash'] == True or options['trash'] == False:
                             return requests.delete("/{}".format(id), options)
                         else:
-                            raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                            raise APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
                     else:
-                        raise exc.APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
+                        raise APIError("Rebrandly#delete supports one key only, 'trash', which is a boolean")
 
 
     class Domain:
         """
         Rebrandly Domains API Actions
         """
-        path = 'domains'
+        def __init__(self):
+            self.path = 'domains'
 
-        def list(options=None):
+        def list(self=None, options=None):
             """
             List the domains in the account.
 
-            :param options:
+            :param self:
                 active
                     optional boolean -- true/false
                 type:
@@ -207,12 +214,12 @@ class Client:
                     optional integer -- skip N domains
                 limit:
                     optional integer -- limit to N domains
-            :type options: dict
+            :type self: dict
 
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get(make_path(path))
+                return requests.get(Client.make_path(path))
             else:
                 return requests.get('/', options)
 
@@ -242,14 +249,14 @@ class Client:
             else:
                 return requests.get("/count", options)
 
-
     class Account:
         """
         Rebrandly Account API Actions
         """
-        path = 'account'
+        def __init__(self):
+            self.path = 'account'
 
-        def get(options=None):
+        def get(self=None, options: object=None):
             """
             Get account information
 
@@ -257,7 +264,7 @@ class Client:
 
             """
 
-        def teams(options=None):
+        def teams(self=None, options: object=None):
             """
             :param options: Options to filter teams by
             :type options: dict
@@ -277,11 +284,12 @@ class Response(requests.Response):
             'msg': args,
             'extra': kwargs
         }
+
     def __str__(self):
         return self.tuple
 
     @staticmethod
-    def raise_exception(code, rebrandly_response) -> dict or exc.RebrandlyError:
+    def raise_exception(code, rebrandly_response) -> dict or RebrandlyError:
         """
         Raise an exception based on whether we got an error, and which one.
 
@@ -290,7 +298,7 @@ class Response(requests.Response):
         :param rebrandly_response:
         :type rebrandly_response:
         :return: object
-        :rtype: dict or exc.RebrandlyError
+        :rtype: dict or RebrandlyError
         """
         if code == 200:
             return {
@@ -300,21 +308,21 @@ class Response(requests.Response):
             }
             # Everything went well, continue.
         elif code == 400:
-            raise exc.BadRequestError(rebrandly_response.code, rebrandly_response.message)
+            raise BadRequestError(rebrandly_response.code, rebrandly_response.message)
         elif code == 401:
-            raise exc.NotAuthorizedError(rebrandly_response.code, rebrandly_response.message)
+            raise NotAuthorizedError(rebrandly_response.code, rebrandly_response.message)
         elif code == 403:
             if rebrandly_response.code == 'AlreadyExists':
-                raise exc.AlreadyExistsError(rebrandly_response.code, rebrandly_response.message)
+                raise AlreadyExistsError(rebrandly_response.code, rebrandly_response.message)
             else:
-                raise exc.InvalidFormatError(rebrandly_response.code, rebrandly_response.message)
+                raise InvalidFormatError(rebrandly_response.code, rebrandly_response.message)
         if code == 404:
-            raise exc.NotFoundError(rebrandly_response.code, rebrandly_response.message)
+            raise NotFoundError(rebrandly_response.code, rebrandly_response.message)
         if code == 500:
-            raise exc.InternalServerError(rebrandly_response.code, rebrandly_response.message)
+            raise InternalServerError(rebrandly_response.code, rebrandly_response.message)
         if code == 502:
-            raise exc.BadGatewayError(rebrandly_response.code, rebrandly_response.message)
+            raise BadGatewayError(rebrandly_response.code, rebrandly_response.message)
         if code == 503:
-            raise exc.APIUnavailableError(rebrandly_response.code, rebrandly_response.message)
+            raise APIUnavailableError(rebrandly_response.code, rebrandly_response.message)
         if code == 504:
-            raise exc.APITimeoutError(rebrandly_response.code, rebrandly_response.message)
+            raise APITimeoutError(rebrandly_response.code, rebrandly_response.message)
