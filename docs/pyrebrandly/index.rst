@@ -5,6 +5,5 @@ pyrebrandly API
     :glob:
     :maxdepth: 2
 
-    request
+    api
     exceptions
-    version
