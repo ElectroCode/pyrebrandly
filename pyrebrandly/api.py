@@ -162,8 +162,8 @@ class Client:
             :param options: A Dict of options
             :type options: dict
             """
-            if options is None:
-                raise APIError("Rebrandly#update must be used with options.")
+            if options is None and link is None:
+                raise APIError("Rebrandly#update must be used with options AND link.")
             else:
                 return requests.post("/{}", json=options)
 
