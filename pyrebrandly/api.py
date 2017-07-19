@@ -19,19 +19,6 @@ class Client:
     __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id', 'domain', 'hdrs']
     API_ENDPOINT = 'api.rebrandly.com/v1'
 
-    @staticmethod
-    def make_path(cls=None, path=None, *extra):
-        """Make a request path
-
-        :param cls: Class Path (usually Client..path)
-        :type cls: str
-        :param path: Method path
-        :type path: str
-        :returns: Joined path
-        :rtype: str
-        """
-        return _join(Client.API_ENDPOINT, cls, path, extra)
-
     def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id=None):
         """
         Initialize the class
@@ -98,7 +85,7 @@ class Client:
 
             """
             if not options:
-                r = requests.get(Client.make_path(Client.Links.path), json=options)
+                r = requests.get(make_path(Client.Links.path), json=options)
                 return dir(r)
             
         @staticmethod
@@ -114,9 +101,9 @@ class Client:
             if id is None:
                 raise APIError
             if options is None:
-                return requests.get(Client.make_path(Client.Links.path, link))
+                return requests.get(make_path(Client.Links.path, link))
             else:
-                return requests.get(Client.make_path(Client.Links.path, link), json=options)
+                return requests.get(make_path(Client.Links.path, link), json=options)
 
         @staticmethod
         def count(options=None):
@@ -127,12 +114,12 @@ class Client:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get(Client.make_path(Client.Links.path, 'count'))
+                return requests.get(make_path(Client.Links.path, 'count'))
             else:
-                return requests.get(Client.make_path(Client.Links.path, 'count'), json=options)
+                return requests.get(make_path(Client.Links.path, 'count'), json=options)
 
         @staticmethod
-        def new(method=None, options=None):
+        def new(method: str = 'post', options: dict = None) -> object:
             """Add a new Link
 
             :param method: GET or POST
@@ -140,33 +127,35 @@ class Client:
             :param options: Dict of Options
             :type options: dict
 
-            :returns: RebrandlyResponse
+            :rtype: object
 
             """
             if method == 'get':
                 if options:
-                    return requests.get(Client.make_path(Client.Links.path, 'new'))
+                    return requests.get(make_path(Client.Links.path, 'new'))
                 else:
-                    return requests.get(Client.make_path(Client.Links.path, 'new'), json=options)
+                    return requests.get(make_path(Client.Links.path, 'new'), json=options)
             if method == 'post':
                 if options is None:
-                    return requests.post(Client.make_path(Client.Links.path))
+                    return requests.post(make_path(Client.Links.path))
                 else:
-                    return requests.post(Client.make_path(Client.Links.path), json=options)
+                    return requests.post(make_path(Client.Links.path), json=options)
 
         @staticmethod
-        def update(link=None, options=None):
+        def update(link: str = None, options: dict = None) -> object:
             """
-            :rtype: object
             :param link: Link ID to update
             :type link: str
             :param options: A Dict of options
             :type options: dict
+
+            :rtype: object
+
             """
             if options is None and link is None:
                 raise NotEnoughArgumentsError(func='Client.Links#update', args=['link', 'options'])
             else:
-                return requests.post(Client.make_path(Client.Links.path, link), json=options)
+                return requests.post(make_path(Client.Links.path, link), json=options)
 
         @staticmethod
         def delete(link=None, options=None):
@@ -182,7 +171,7 @@ class Client:
             else:
                 if options:
                     if options.keys == ['trash']:
-                        return requests.delete(Client.make_path(Client.Links.path, link), json=options)
+                        return requests.delete(make_path(Client.Links.path, link), json=options)
                     else:
                         raise InvalidOptionsError(possible=['trash'], invalid=options.keys())
 
@@ -215,9 +204,9 @@ class Client:
             :returns: RebrandlyResponse
             """
             if options is None:
-                return requests.get(Client.make_path(Client.Domain.path, ''))
+                return requests.get(make_path(Client.Domain.path, ''))
             else:
-                return requests.get(Client.make_path(Client.Domain.path, ''), json=options)
+                return requests.get(make_path(Client.Domain.path, ''), json=options)
 
         @staticmethod
         def get(domain=None):
@@ -229,7 +218,7 @@ class Client:
 
             :returns: RebrandlyResponse
             """
-            return requests.get(Client.make_path(Client.Domain.path, domain))
+            return requests.get(make_path(Client.Domain.path, domain))
 
         @staticmethod
         def count(options=None):
@@ -243,9 +232,9 @@ class Client:
 
             """
             if options is None:
-                return requests.get(Client.make_path(Client.Domain.path, 'count'))
+                return requests.get(make_path(Client.Domain.path, 'count'))
             else:
-                return requests.get(Client.make_path(Client.Domain.path, 'count'), json=options)
+                return requests.get(make_path(Client.Domain.path, 'count'), json=options)
 
     class Account:
         """
@@ -262,9 +251,9 @@ class Client:
             :type options: dict
             """
             if options:
-                return requests.get(Client.make_path(Client.Account.path), json=options)
+                return requests.get(make_path(Client.Account.path), json=options)
             else:
-                return requests.get(Client.make_path(Client.Account.path))
+                return requests.get(make_path(Client.Account.path))
             
         @staticmethod
         def teams(options=None):
@@ -275,9 +264,22 @@ class Client:
 
             """
             if options is None:
-                return requests.get(Client.make_path(Client.Account.path, 'teams'))
+                return requests.get(make_path(Client.Account.path, 'teams'))
             else:
-                return requests.get(Client.make_path(Client.Account.path, 'teams'), json=options)
+                return requests.get(make_path(Client.Account.path, 'teams'), json=options)
+
+
+def make_path(cls=None, path=None):
+    """Make a request path
+
+    :param cls: Class Path (usually Client.CLASS.path)
+    :type cls: str
+    :param path: Method path
+    :type path: str
+    :returns: Joined path
+    :rtype: str
+    """
+    return _join(Client.API_ENDPOINT, cls, path)
 
 
 class Response(requests.Response):

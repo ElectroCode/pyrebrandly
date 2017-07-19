@@ -23,6 +23,7 @@ class NotEnoughArgumentsError(APIError):
     """
     Not Enough Arguments for method
     """
+
     def __init__(self, *, func=None, args=None):
         self.func = func
         self.args = args
@@ -48,6 +49,7 @@ class InvalidOptionsError(APIError):
 
     def __repr__(self):
         return 'invalid options used in dict, invalid: {}, possible: {}'.format(self.invalid_opts, self.possible_opts)
+
 
 class BadRequestError(APIError):
     """

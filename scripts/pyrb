@@ -1,13 +1,22 @@
-import pyrebrandly
+#! /usr/bin/env python3
+
+import pyrebrandly.api as api
+
 import click
 
-@click.command()
-@click.option('--key', prompt="API Key:")
-@click.option('--id', prompt="Domain ID:")
-@click.option('--name', prompt="Domain Name:")
-@click.option('--team', prompt="Team ID:")
-def grab_options(key, id, name, team):
-    """Grab the options from the command line or prompt,
-    if they exist in environment variables they will be catched through initialization."""
+client = api.Client()
 
-cfg = pyrebrandly.Client()
+
+@click.group()
+@click.option('-v', '--verbose', default=False)
+@click.pass_context
+def base(ctx, verbose):
+    ctx.cfg['VERBOSE'] = verbose
+
+@base.command()
+@click.pass_context
+def setup(ctx):
+    print(ctx.cfg['VERBOSE'])
+
+if __name__ == '__main__':
+    base(cfg={})
