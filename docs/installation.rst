@@ -24,3 +24,6 @@ PyPi
     | ``pip3 download pyrebrandly``
     | ``pip3 install pyrebrandly -d <dir>`` - 'Downloads package into <dir> instead of installing, regardless of what\'s already installed'
 
+    | You will want to run the following to get the dependencies for :bold:`pyrebrandly`
+    | With Sudo - ``sudo pip3 install -r requirements.txt``
+    | User Install - ``pip3 install -r requirements.txt --user``

@@ -1,22 +1,100 @@
 #! /usr/bin/env python3
+import os
+import argparse
+import textwrap
+from argparse import ArgumentDefaultsHelpFormatter
 
 import pyrebrandly.api as api
+import pyrebrandly as _pyrb
 
-import click
+import yaml
+from yamlordereddictloader import Loader as Odl_loader
 
-client = api.Client()
+api_parser = argparse.ArgumentParser(add_help=False, formatter_class=argparse.RawTextHelpFormatter, epilog="""
+""")
+api_parser.add_argument('-k', '--key', type=str, dest='key',
+                        action='store', metavar='KEY',
+                        help='Rebrandly.com API Key')
+
+api_parser.add_argument('-n', '--name', type=str, dest='dname',
+                        action='store', metavar='DOMAIN_NAME', default='rebrand.ly',
+                        help='A domain name accessible by KEY')
+
+api_parser.add_argument('-i', '--id', type=str, dest='did',
+                        action='store', metavar='DOMAIN_ID',
+                        help="DOMAIN_NAME's domain ID")
+
+api_parser.add_argument('-t', '--team', type=str, dest='tid',
+                        action='store', metavar='TEAM_ID',
+                        help="TEAM_ID belonging to KEY")
 
 
-@click.group()
-@click.option('-v', '--verbose', default=False)
-@click.pass_context
-def base(ctx, verbose):
-    ctx.cfg['VERBOSE'] = verbose
+class PyRB:
 
-@base.command()
-@click.pass_context
-def setup(ctx):
-    print(ctx.cfg['VERBOSE'])
+    class Config:
+        __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id']
+        def __init__(self, api_key=None, domain_name=None, domain_id=None, team_id=None):
+            self.api_key = api_key
+            self.domain_name = domain_name
+            self.domain_id = domain_id
+            self.team_id = team_id
+            if api_key and domain_name and domain_id:
+                pass
+
+            elif not api_key and not domain_id and not domain_name:
+                if os.path.exists(os.path.expanduser('~/.rebrandlyrc')):
+                    config = yaml.load(open(os.path.expanduser('~/.rebrandlyrc')),
+                                       Loader=Odl_loader)
+                    try:
+                        self.api_key = config.api_key
+                        self.domain_id = config.domain_id
+                        self.domain_name = config.domain_name
+                        self.team_id = config.team_id
+                    except:
+                        raise
+                else:
+                    try:
+                        self.api_key = os.environ.get('REBRANDLY_API_KEY')
+                        self.domain_name = os.environ.get('REBRANDLY_DEF_DOMAIN_NAME')
+                        self.domain_id = os.environ.get('REBRANDLY_DEF_DOMAIN_ID')
+                        self.team_id = os.environ.get('REBRANDLY_DEF_TEAM_ID')
+                    except:
+                        raise
+
+    class Args:
+        pass
+
+
+prog_description = """\
+PyRB uses the pyrebrandly API library to utilize the rebrandly.com API,
+see <https://rebrandly.com/> and <https://developers.rebrandly.com> for
+more information.
+"""
+
+parser = argparse.ArgumentParser(prog='pyrb', description=prog_description,
+                                 formatter_class=ArgumentDefaultsHelpFormatter,
+                                 parents=[api_parser])
+
+parser.add_argument('-V', '--version', action='version', version="%(PROG)s {}".format(_pyrb.__version__))
+parser.add_argument('-v', '--verbose', action='count', default=0,
+                    help="Increase Verbosity")
+subparsers = parser.add_subparsers(title='Commands',
+                                   description="""These are all the API sections""")
+
+links = subparsers.add_parser('links')
+links.add_argument('key', action='store', help="")
+domains = subparsers.add_parser('domains')
+account = subparsers.add_parser('account')
+
+parser.parse_args(namespace=PyRB.Args)
+
+def do_args():
+    """Use argparse to grab arguments"""
+    parser.parse_args()
 
 if __name__ == '__main__':
-    base(cfg={})
+    do_args()
+
+    client = api.Client(PyRB.Config.api_key, PyRB.Config.domain_name, PyRB.Config.domain_id, PyRB.Config.team_id)
+    print()
+    print(client.Domain.list())

@@ -17,7 +17,7 @@ class Client:
     Base class for Rebrandly API actions
     """
     __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id', 'domain', 'hdrs']
-    API_ENDPOINT = 'api.rebrandly.com/v1'
+    API_ENDPOINT = 'https://api.rebrandly.com/v1'
 
     def __init__(self, api_key='', domain_name='rebrand.ly', domain_id='', team_id=None):
         """
