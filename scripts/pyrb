@@ -6,33 +6,16 @@ from argparse import ArgumentDefaultsHelpFormatter
 
 import pyrebrandly.api as api
 import pyrebrandly as _pyrb
-
+from pyrebrandly.client.format import Format
 import yaml
 from yamlordereddictloader import Loader as Odl_loader
-
-api_parser = argparse.ArgumentParser(add_help=False, formatter_class=argparse.RawTextHelpFormatter, epilog="""
-""")
-api_parser.add_argument('-k', '--key', type=str, dest='key',
-                        action='store', metavar='KEY',
-                        help='Rebrandly.com API Key')
-
-api_parser.add_argument('-n', '--name', type=str, dest='dname',
-                        action='store', metavar='DOMAIN_NAME', default='rebrand.ly',
-                        help='A domain name accessible by KEY')
-
-api_parser.add_argument('-i', '--id', type=str, dest='did',
-                        action='store', metavar='DOMAIN_ID',
-                        help="DOMAIN_NAME's domain ID")
-
-api_parser.add_argument('-t', '--team', type=str, dest='tid',
-                        action='store', metavar='TEAM_ID',
-                        help="TEAM_ID belonging to KEY")
 
 
 class PyRB:
 
     class Config:
         __slots__ = ['api_key', 'domain_name', 'domain_id', 'team_id']
+
         def __init__(self, api_key=None, domain_name=None, domain_id=None, team_id=None):
             self.api_key = api_key
             self.domain_name = domain_name
@@ -63,38 +46,61 @@ class PyRB:
 
     class Args:
         pass
-
-
-prog_description = """\
-PyRB uses the pyrebrandly API library to utilize the rebrandly.com API,
-see <https://rebrandly.com/> and <https://developers.rebrandly.com> for
-more information.
-"""
-
-parser = argparse.ArgumentParser(prog='pyrb', description=prog_description,
-                                 formatter_class=ArgumentDefaultsHelpFormatter,
-                                 parents=[api_parser])
-
-parser.add_argument('-V', '--version', action='version', version="%(PROG)s {}".format(_pyrb.__version__))
-parser.add_argument('-v', '--verbose', action='count', default=0,
-                    help="Increase Verbosity")
-subparsers = parser.add_subparsers(title='Commands',
-                                   description="""These are all the API sections""")
-
-links = subparsers.add_parser('links')
-links.add_argument('key', action='store', help="")
-domains = subparsers.add_parser('domains')
-account = subparsers.add_parser('account')
-
-parser.parse_args(namespace=PyRB.Args)
-
 def do_args():
-    """Use argparse to grab arguments"""
-    parser.parse_args()
+    api_parser = argparse.ArgumentParser(add_help=False, formatter_class=argparse.RawTextHelpFormatter, epilog="""
+    """)
+    api_parser.add_argument('-k', '--key', type=str, dest='key',
+                            action='store', metavar='KEY',
+                            help='Rebrandly.com API Key')
+
+    api_parser.add_argument('-n', '--name', type=str, dest='dname',
+                            action='store', metavar='DOMAIN_NAME', default='rebrand.ly',
+                            help='A domain name accessible by KEY')
+
+    api_parser.add_argument('-i', '--id', type=str, dest='did',
+                            action='store', metavar='DOMAIN_ID',
+                            help="DOMAIN_NAME's domain ID")
+
+    api_parser.add_argument('-t', '--team', type=str, dest='tid',
+                            action='store', metavar='TEAM_ID',
+                            help="TEAM_ID belonging to KEY")
+
+
+    prog_description = """\
+    PyRB uses the pyrebrandly API library to utilize the rebrandly.com API,
+    see <https://rebrandly.com/> and <https://developers.rebrandly.com> for
+    more information.
+    """
+
+    parser = argparse.ArgumentParser(prog='pyrb', description=prog_description,
+                                     formatter_class=ArgumentDefaultsHelpFormatter,
+                                     parents=[api_parser])
+
+    parser.add_argument('-V', '--version', action='version', version="%(PROG)s {}".format(_pyrb.__version__))
+    parser.add_argument('-v', '--verbose', action='count', default=0,
+                        help="Increase Verbosity")
+    subparsers = parser.add_subparsers(title='Commands',
+                                       description="""These are all the API sections""")
+
+    links = subparsers.add_parser('links')
+    links.set_defaults(cls='links')
+    domains = subparsers.add_parser('domains')
+    domains.set_defaults(cls='domains')
+    domain_sub = domains.add_subparsers(title='Domain Commands',
+                                        description="All commands relating to domains.")
+    d_list = domain_sub.add_parser('list')
+    d_list.set_defaults(command='list')
+    d_list.add_argument('-a', '--active', action='store_true', help="Filter by Active/not-active")
+    account = subparsers.add_parser('account')
+
+    return parser.parse_args()
+
 
 if __name__ == '__main__':
-    do_args()
+    args = do_args()
+    if args.cls == 'domains':
+        domains = api.Domain(api_key=args.key, domain_name=args.dname, domain_id=args.did,team_id=args.tid)
+        if args.command == 'list':
+            print(Format(args.cls, args.command, domains.list(options={}).json()))
 
-    client = api.Client(PyRB.Config.api_key, PyRB.Config.domain_name, PyRB.Config.domain_id, PyRB.Config.team_id)
-    print()
-    print(client.Domain.list())
+
